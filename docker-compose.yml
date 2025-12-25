@@ -1,0 +1,122 @@
+version: '3.0'
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    ports:
+      - "9000:9000/tcp"
+      - "9443:9443/tcp"
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer/data:/data
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "8123:8123"
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./homeassistant/:/config
+      - /etc/localtime:/etc/localtime:ro
+#    dependencies:
+#      - recorder     
+    depends_on:
+#      - mariadb
+      - mosquitto
+
+  hass-configurator:
+    container_name: hassconf
+    image: causticlab/hass-configurator-docker
+    restart: unless-stopped
+    environment:
+      - HC_BASEPATH=/hass-config
+      - DIRSFIRST=true
+    ports:
+      - "3218:3218/tcp"
+    volumes:
+      - ./fileeditor:/config
+      - ./homeassistant:/hass-config
+
+#  mariadb:
+#    container_name: mariadb
+#    image: mariadb:latest
+#    restart: unless-stopped
+#    environment:
+#      - TZ=Europe/Moscow
+#      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+#      - MYSQL_DATABASE=${MYSQL_HA_DATABASE}
+#      - MYSQL_USER=${MYSQL_HA_USER}
+#      - MYSQL_PASSWORD=${MYSQL_HA_PASSWORD}
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - ./mariadb:/var/lib/mysql
+
+#  adminer:
+#    container_name: adminer
+#    image: adminer
+#    restart: unless-stopped
+#    environment:
+#      - ADMINER_DEFAULT_SERVER=mariadb
+#      - ADMINER_PLUGINS=frames
+#    ports:
+#      - "8077:8080/tcp"
+#    depends_on:
+#      - mariadb
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883/tcp"
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    stdin_open: true
+    tty: true
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    restart: unless-stopped
+    devices:
+      - ${ZIGBEE_ADAPTER_TTY}:/dev/ttyZigbee
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    ports:
+      - "8020:8020"
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./zigbee2mqtt:/app/data
+      - /run/udev:/run/udev:ro
+    depends_on:
+      - mosquitto
+
+  esphome:
+    container_name: esphome
+    image: esphome/esphome
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "6052:6052/tcp"
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - ./esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+#    devices:
+#      - /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A5069RR4-if00-port0:/dev/ttyESP
+#      - /dev/ttyUSB1:/dev/ttyUSB1

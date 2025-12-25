@@ -1,0 +1,26 @@
+# Secrets
+secrets.yaml
+.env
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+home-assistant.log*
+*.log
+
+# Backups
+backups/
+
+# Cache / runtime
+.storage/
+__pycache__/
+.cloud/
+
+# Python
+*.pyc
+
+# Custom temporary files
+.tmp/

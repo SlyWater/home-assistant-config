@@ -1,0 +1,18 @@
+display:
+  - platform: lcd
+    dimensions: 16x2
+    rs_pin: D1
+    enable_pin: D2
+    d4_pin: D3
+    d5_pin: D4
+    d6_pin: D5
+    d7_pin: D6
+    lambda: |-
+      it.print(0, 0, "Temp: ");
+      if (id(temp).has_state()) {
+        it.printf(6, 0, "%.1fC", id(temp).state);
+      }
+      it.print(0, 1, "Humidity: ");
+      if (id(hum).has_state()) {
+        it.printf(10, 1, "%.0f%%", id(hum).state);
+      }

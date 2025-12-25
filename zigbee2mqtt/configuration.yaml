@@ -1,0 +1,48 @@
+homeassistant:
+  enabled: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://192.168.1.203:1883
+  user: homeassistant
+  password: '1'
+  version: 5
+  keepalive: 60
+  reject_unauthorized: true
+serial:
+  port: /dev/ttyZigbee
+  adapter: zstack
+  disable_led: true
+advanced:
+  log_level: debug
+  log_debug_to_mqtt_frontend: true
+  log_debug_namespace_ignore: ^zh:controller|zh:zstack:znp|zh:zstack:unpi|zh:zstack
+  pan_id: 50081
+  channel: 11
+  network_key:
+    - 132
+    - 212
+    - 252
+    - 59
+    - 77
+    - 217
+    - 144
+    - 57
+    - 161
+    - 27
+    - 56
+    - 186
+    - 36
+    - 131
+    - 30
+    - 68
+  last_seen: ISO_8601_local
+device_options: {}
+passlist: []
+queue: {}
+frontend:
+  enabled: true
+  port: 8020
+version: 4
+devices:
+  '0xa4c1388603484de2':
+    friendly_name: Выключатель

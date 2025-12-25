@@ -1,0 +1,18 @@
+version: 4
+homeassistant: true
+
+permit_join: false
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://192.168.1.203:1883
+  user: mqtt_user
+  password: mqtt_password
+  client_id: zigbee
+serial:
+#  port: /dev/ttyUSB0
+  port: /dev/ttyZigbee
+#  port: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+#  adapter: ember
+frontend:
+  port: 8020

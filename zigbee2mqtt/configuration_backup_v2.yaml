@@ -1,0 +1,33 @@
+#devices:
+#  - devices.yaml
+#groups:
+#  - groups.yaml
+homeassistant:
+  enabled: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://192.168.1.203:1883
+#  username: mqtt
+  user: homeassistant
+  password: "1"
+  version: 5
+  keepalive: 60
+  reject_unauthorized: true
+serial:
+  port: /dev/ttyZigbee
+  adapter: zstack
+  disable_led: true
+advanced:
+  log_level: debug
+  log_debug_to_mqtt_frontend: true
+  log_debug_namespace_ignore: ^zh:controller|zh:zstack:znp|zh:zstack:unpi|zh:zstack
+  pan_id: GENERATE
+  channel: 6
+  network_key: GENERATE
+  last_seen: ISO_8601_local
+device_options: {}
+passlist: []
+queue: {}
+frontend:
+  enabled: true
+  port: 8020

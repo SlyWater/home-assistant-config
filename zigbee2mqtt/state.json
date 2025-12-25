@@ -1,0 +1,10 @@
+{
+    "0xa4c1388603484de2": {
+        "state": "OFF",
+        "power_on_behavior": "previous",
+        "switch_type": "toggle",
+        "countdown": 0,
+        "last_seen": "2025-12-23T13:23:59+03:00",
+        "linkquality": 112
+    }
+}
