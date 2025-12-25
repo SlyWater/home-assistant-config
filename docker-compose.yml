@@ -27,10 +27,7 @@ services:
     volumes:
       - ./homeassistant/:/config
       - /etc/localtime:/etc/localtime:ro
-#    dependencies:
-#      - recorder     
     depends_on:
-#      - mariadb
       - mosquitto
 
   hass-configurator:
@@ -45,33 +42,6 @@ services:
     volumes:
       - ./fileeditor:/config
       - ./homeassistant:/hass-config
-
-#  mariadb:
-#    container_name: mariadb
-#    image: mariadb:latest
-#    restart: unless-stopped
-#    environment:
-#      - TZ=Europe/Moscow
-#      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#      - MYSQL_DATABASE=${MYSQL_HA_DATABASE}
-#      - MYSQL_USER=${MYSQL_HA_USER}
-#      - MYSQL_PASSWORD=${MYSQL_HA_PASSWORD}
-#    ports:
-#      - "3306:3306"
-#    volumes:
-#      - ./mariadb:/var/lib/mysql
-
-#  adminer:
-#    container_name: adminer
-#    image: adminer
-#    restart: unless-stopped
-#    environment:
-#      - ADMINER_DEFAULT_SERVER=mariadb
-#      - ADMINER_PLUGINS=frames
-#    ports:
-#      - "8077:8080/tcp"
-#    depends_on:
-#      - mariadb
 
   mosquitto:
     container_name: mosquitto
@@ -117,6 +87,3 @@ services:
     volumes:
       - ./esphome/config:/config
       - /etc/localtime:/etc/localtime:ro
-#    devices:
-#      - /dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A5069RR4-if00-port0:/dev/ttyESP
-#      - /dev/ttyUSB1:/dev/ttyUSB1
